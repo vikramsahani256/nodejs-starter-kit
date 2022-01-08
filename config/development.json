@@ -1,0 +1,36 @@
+{
+    "PORT": 3001,
+    
+    "MySQL" : {
+      "databaseSettings": {
+          "host"      : "localhost",
+          "user"      : "user",
+          "password"  : "password",
+          "database"  : "database"
+      },
+
+      "slaveDatabaseSettings": {
+          "host"      : "localhost",
+          "user"      : "user",
+          "password"  : "password",
+          "database"  : "database"
+       }
+      },
+
+      "MongoDB" : {
+
+      },
+
+      "logFiles": {
+        "requestLogspath": "../logs/request.log"
+      },
+
+      "secretKeys" : {
+        "PRODUCT_SAAS" : "PRODUCT_SAAS_KEYS",
+        "PRODUCT_FORK" : "PRODUCT_FORK_KEYS"
+      },
+      
+      "crypto" : {
+        "secretKey" : "yourSecretKey"
+      }
+}

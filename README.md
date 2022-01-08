@@ -1,0 +1,1 @@
+# Basic node.js Server Side Structure for any project 

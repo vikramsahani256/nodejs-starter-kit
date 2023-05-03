@@ -10,10 +10,10 @@
       },
 
       "slaveDatabaseSettings": {
-        "host"      : "ksjnkfn",
-        "user"      : "ksjnkfn",
-        "password"  : "ksjnkfn",
-        "database"  : "ksjnkfn"
+        "host"      : "host",
+        "user"      : "root",
+        "password"  : "pass",
+        "database"  : "database"
        }
       },
 

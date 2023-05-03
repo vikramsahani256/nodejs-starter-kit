@@ -3,17 +3,17 @@
     
     "MySQL" : {
       "databaseSettings": {
-          "host"      : "localhost",
-          "user"      : "user",
-          "password"  : "password",
-          "database"  : "database"
+          "host"      : "ksjnkfn",
+          "user"      : "ksjnkfn",
+          "password"  : "ksjnkfn",
+          "database"  : "ksjnkfn"
       },
 
       "slaveDatabaseSettings": {
-          "host"      : "localhost",
-          "user"      : "user",
-          "password"  : "password",
-          "database"  : "database"
+        "host"      : "ksjnkfn",
+        "user"      : "ksjnkfn",
+        "password"  : "ksjnkfn",
+        "database"  : "ksjnkfn"
        }
       },
 
@@ -25,12 +25,12 @@
         "requestLogspath": "../logs/request.log"
       },
 
-      "secretKeys" : {
-        "PRODUCT_SAAS" : "PRODUCT_SAAS_KEYS",
-        "PRODUCT_FORK" : "PRODUCT_FORK_KEYS"
+      "productSecretKeys" : {
+        "PRODUCT_SAAS" : "product_key_1",  
+        "PRODUCT_FORK" : "product_key_2"
       },
       
       "crypto" : {
-        "secretKey" : "yourSecretKey"
+        "secretKey" : "crypto_secret_key"
       }
 }

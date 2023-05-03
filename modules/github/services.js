@@ -10,7 +10,7 @@ const constants   = require('../../properties/constants')
 exports.getUser  = async function getUser (apiReference, opts) {
   try{
     return httpService.sendAxiosRequest(apiReference,{
-        url    : `https://api.github.com/users/${opts.githubUserName}` ,
+        url    : `https://api.github.com/users/${opts.github_user_name}` ,
         method : constants.requestMethod.GET,
         query  : { }
     })

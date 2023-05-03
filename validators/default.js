@@ -15,10 +15,8 @@ function validateFields(apiReference, req, schema, msg) {
       Joi.assert(req, schema);
       return true;
     } catch (error) {
-      const errorReason = msg || error.details[0].message || 'Parameter missing or parameter type is wrong.';
-      logging.log(apiReference, error.details);
-      // you can add here any alert bot if required.
-      return false;
+      error.details[0].message = error.details[0].message || "SOME PARAMETER OR DATA TYPE IS MISS MATCHING."
+      throw error?.details[0];
     }
 }
   

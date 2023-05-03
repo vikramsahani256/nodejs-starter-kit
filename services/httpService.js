@@ -51,6 +51,9 @@ async function sendAxiosRequest(apiReference, options) {
       
       const axiosResponse = await axios(axiosOptions);
   
+      console.log("axiosResponse=====",axiosResponse);
+      console.log("axiosResponse.data =====",axiosResponse.data );
+
       logging.log(apiReference, { RESPONSE : axiosResponse , BODY : axiosResponse.data });
   
       if (_.isEmpty(axiosResponse)) {

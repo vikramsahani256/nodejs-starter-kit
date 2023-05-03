@@ -11,6 +11,8 @@ exports.initializeConnectionPool = initializeConnectionPool;
 exports.executeSlaveQuery        = executeSlaveQuery;
 exports.executeQuery             = executeQuery;
 
+let formatedSQL = "";
+
 async function initializeConnectionPool(dbConfig,connectionName) {
   try {
     console.log(`CALLING INITIALIZE POOL...${connectionName || 'connectionNameMissing' }`);
@@ -20,7 +22,12 @@ async function initializeConnectionPool(dbConfig,connectionName) {
       numConnectionsInPool++;
       console.log('NUMBER OF CONNECTIONS IN POOL : ', numConnectionsInPool);
     });
-    return connection;
+    
+    connection.on('error', (err) => {
+      console.error('MySQL database connection error: ', err);
+    });
+    
+    return connection.promise();
   } catch (error) {
     console.error('Error occurred while initializing connection pool :', error);
     throw error;
@@ -44,27 +51,29 @@ function logSqlError(apiReference, opts) {
 }
 
 
-async function executeQuery(apiReference, event, queryString, params ) {
+
+async function executeQuery(apiReference, event, queryString, params, noErrorlog) {
   try {
     apiReference = apiReference || { module: "mysqlLib", api: "executeQuery" };
-    const query = await connection.promise().query(queryString, params);
-    const { results } = query;
+    const [results,fields] = await connection.query(queryString,params);
+    formatedSQL = mysql.format(queryString, params);
     logging.log(apiReference, {
-      EVENT: "Executing query " + event, QUERY: query.sql, SQL_RESULT: results,
+      EVENT: "Executing query " + event, QUERY: formatedSQL , SQL_RESULT: results,
       SQL_RESULT_LENGTH: results && results.length
     });
+
     return results;
   } catch (error) {
       logSqlError(apiReference, {
         event  : event,
         err    : error,
-        sql    : queryString,
+        sql    : formatedSQL,
       });
     if (error.code === 'ER_LOCK_DEADLOCK' || error.code === 'ER_QUERY_INTERRUPTED') {
       setTimeout(() => executeQuery(apiReference, event, queryString, params), 50);
     } else {
-      throw { ERROR : error, QUERY : queryString, EVENT : event };
-    } 
+      throw { ERROR : error, QUERY : formatedSQL, EVENT : event };
+    }
   }
 }
 
@@ -72,10 +81,12 @@ async function executeQuery(apiReference, event, queryString, params ) {
 async function executeSlaveQuery(apiReference, event, queryString, params, noErrorlog) {
   try {
     apiReference = apiReference || { module: "mysqlLib", api: "executeSlaveQuery" };
-    const query = await slaveConnection.promise().query(queryString, params);
-    const { results } = query;
+    const [results,fields] = await slaveConnection.query(queryString,params);
+    
+    formatedSQL = mysql.format(queryString, params);
+
     logging.log(apiReference, {
-      EVENT: "Executing query " + event, QUERY: query.sql, SQL_RESULT: results,
+      EVENT: "Executing query " + event, QUERY: formatedSQL , SQL_RESULT: results,
       SQL_RESULT_LENGTH: results && results.length
     });
     return results;
@@ -83,12 +94,12 @@ async function executeSlaveQuery(apiReference, event, queryString, params, noErr
       logSqlError(apiReference, {
         event  : event,
         err    : error,
-        sql    : queryString,
+        sql    : formatedSQL,
       });
     if (error.code === 'ER_LOCK_DEADLOCK' || error.code === 'ER_QUERY_INTERRUPTED') {
-      setTimeout(() => executeQuery(apiReference, event, queryString, params), 50);
+      setTimeout(() => executeSlaveQuery(apiReference, event, queryString, params), 50);
     } else {
-      throw { ERROR : error, QUERY : queryString, EVENT : event };
+      throw { ERROR : error, QUERY : formatedSQL, EVENT : event };
     }
   }
 }

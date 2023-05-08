@@ -8,4 +8,5 @@ const githubUserValidator   = require('./validator')
 const Auth                  = require('../../middlewares/authenticator/authController')
 
 
-app.post('/github/getUser', githubUserValidator.getUser, Auth.authenticateProductHit,  Auth.authenticateUserAccessToken, githubUserController.getUser);
+// app.post('/github/getUser', githubUserValidator.getUser, Auth.authenticateProductHit,  Auth.authenticateUserAccessToken, githubUserController.getUser);
+app.post('/github/getUser', githubUserValidator.getUser, githubUserController.getUser);

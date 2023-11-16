@@ -1,2 +1,3 @@
 config/live.json
 config/beta.json
+/node_modules

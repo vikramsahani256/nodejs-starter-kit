@@ -19,7 +19,7 @@ exports.initializeServer = async function initializeServer() {
         connection      = await mysqlLib.initializeConnectionPool(envProperties.databaseSettings.mysql.master , "MASTER_DB");
         slaveConnection = await mysqlLib.initializeConnectionPool(envProperties.databaseSettings.mysql.slave  , "SLAVE_DB" );
 
-        server          = await httpService.startHttpServer(envProperties.port);
+        server          = await httpService.startServer(envProperties.port);
     } catch (error) {
         logging.logError(apiReference, {EVENT: "initializeServer", ERROR: error});
         throw new Error(error)

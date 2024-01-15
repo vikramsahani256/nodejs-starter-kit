@@ -3,22 +3,21 @@
 //************************************************************************************//
 
 
-const http        = require('http');
 const _           = require('underscore');
 const constants   = require('../properties/constants');
 const logging     = require('./../logging/logging');
 const axios       = require('axios')
 
 
-exports.startHttpServer     = startHttpServer;
-exports.sendAxiosRequest    = sendAxiosRequest;
+exports.startServer      = startServer;
+exports.sendAxiosRequest = sendAxiosRequest;
 
-async function startHttpServer(port){
+async function startServer(port){
     return new Promise((resolve, reject)=>{
-        const server = http.createServer(app).listen(port,function(){
-            console.log(`########## Express Connected ########## \n   PORT - ${app.get('port') || port} , ENV - ${app.get('env')}\n`);
-            resolve(server)
-        })
+        const server = app.listen(port,function(){
+          console.log(`########## Express Connected ########## \n   PORT - ${app.get('port') || port} , ENV - ${app.get('env')}\n`);
+          resolve(server)
+      })
     });
 }
 

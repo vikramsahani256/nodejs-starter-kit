@@ -1,1 +1,6 @@
-# Basic node.js Server Side Structure for any project 
+# Nodejs starter kit
+
+Start : 
+cd nodejs-starter-kit
+npm i
+npm run dev
